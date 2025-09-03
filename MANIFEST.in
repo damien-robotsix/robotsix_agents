@@ -1,0 +1,30 @@
+include README.md
+include LICENSE
+include pyproject.toml
+include MANIFEST.in
+
+# Include all Python files
+recursive-include . *.py
+
+# Include documentation and configuration files
+recursive-include . *.md
+recursive-include . *.txt
+recursive-include . *.json
+recursive-include . *.yaml
+recursive-include . *.yml
+
+# Include example files
+recursive-include . *.example
+
+# Exclude test files from distribution
+recursive-exclude . test_*
+recursive-exclude . *_test.py
+recursive-exclude . tests
+
+# Exclude development files
+exclude .gitignore
+exclude .env*
+recursive-exclude . __pycache__
+recursive-exclude . *.pyc
+recursive-exclude . *.pyo
+recursive-exclude . .DS_Store

@@ -1,0 +1,12 @@
+# Calendar agent configuration
+caldav:
+  # CalDAV server URL (e.g., https://calendar.example.com/dav/)
+  url: "https://calendar.example.com/dav/"
+  # Username for CalDAV authentication
+  username: "your_username"
+  # Password for CalDAV authentication
+  password: "your_password"
+  # Calendar name to use
+  calendar_name: default
+  # Verify SSL certificates
+  verify_ssl: true

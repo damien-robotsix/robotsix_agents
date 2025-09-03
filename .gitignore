@@ -1,0 +1,7 @@
+__pycache__
+config.json
+*.log
+test_output
+*.egg-info
+dist
+TODO-AI.md

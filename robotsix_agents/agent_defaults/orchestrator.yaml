@@ -1,0 +1,6 @@
+# MagenticOneGroupChat configuration
+max_turns: 20
+max_stalls: 3
+
+participants:
+  - "interaction_memory"

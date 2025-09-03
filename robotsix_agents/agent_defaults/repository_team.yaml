@@ -1,0 +1,73 @@
+# Parser configuration
+parser:
+  # File extensions to parse (with glob patterns)
+  file_extensions:
+    - "*.py" # Python files
+    - "*.js" # JavaScript files
+    - "*.ts" # TypeScript files
+    - "*.tsx" # TypeScript React files
+    - "*.jsx" # JavaScript React files
+    - "*.md" # Markdown files
+    - "*.json" # JSON files
+    - "*.yaml" # YAML files
+    - "*.yml" # YAML files (alternative extension)
+    - "*.toml" # TOML files
+    - "*.ini" # INI files
+    - "*.cfg" # Configuration files
+    - "*.conf" # Configuration files
+    - "*.txt" # Text files
+    - "*.rst" # reStructuredText files
+    - "*.html" # HTML files
+    - "*.css" # CSS files
+    - "*.scss" # SCSS files
+    - "*.less" # LESS files
+    - "*.go" # Go files
+    - "*.rs" # Rust files
+    - "*.java" # Java files
+    - "*.c" # C files
+    - "*.cpp" # C++ files
+    - "*.h" # Header files
+    - "*.hpp" # C++ header files
+    - "*.cs" # C# files
+    - "*.php" # PHP files
+    - "*.rb" # Ruby files
+    - "*.kt" # Kotlin files
+    - "*.swift" # Swift files
+    - "*.dart" # Dart files
+    - "*.r" # R files
+    - "*.sql" # SQL files
+    - "*.sh" # Shell scripts
+    - "*.bash" # Bash scripts
+    - "*.zsh" # Zsh scripts
+    - "*.fish" # Fish scripts
+    - "*.ps1" # PowerShell scripts
+    - "*.dockerfile" # Dockerfile
+    - "Dockerfile*" # Dockerfile variations
+    - "*.makefile" # Makefile
+    - "Makefile*" # Makefile variations
+
+  # Directories to exclude from parsing
+  exclude_directories:
+    - ".git"
+    - ".svn"
+    - ".hg"
+    - "node_modules"
+    - "__pycache__"
+    - ".pytest_cache"
+    - ".venv"
+    - "venv"
+    - "env"
+    - ".env"
+    - "build"
+    - "dist"
+    - "target"
+    - ".idea"
+    - ".vscode"
+    - "coverage"
+    - ".coverage"
+    - ".nyc_output"
+    - "logs"
+    - "tmp"
+    - "temp"
+    - ".DS_Store"
+    - "Thumbs.db"
