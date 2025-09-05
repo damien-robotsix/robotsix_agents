@@ -8,7 +8,7 @@ This repository contains the source code for "Robotsix Agents," a sophisticated 
 *   **Specialized Agents:** Each agent is an expert in its domain:
     *   **Coding Specialist:** Handles file I/O, code implementation, and solution validation.
     *   **Git Assistant:** Manages all version control tasks, including commits, branches, and merges.
-    *   **Repository Parser:** Indexes and performs semantic searches on the repository content for efficient information retrieval.
+    *   **repository_specialist:** Indexes and performs semantic searches on the repository content for efficient information retrieval.
     *   **GitHub Agent:** Integrates with GitHub to streamline workflows.
     *   **Task Organizer:** Manages project tasks and maintains a TODO list to keep development on track.
 *   **Automated Repository Operations:** The agent team automates complex workflows, from coding and testing to version control and task management.
@@ -66,7 +66,6 @@ Start by forking the repository to your own GitHub account and then clone it to 
 git clone https://github.com/your-username/robotsix-agents.git
 cd robotsix-agents
 ```
-
 **2. Create a Virtual Environment and Install Dependencies**
 
 It is recommended to work in a virtual environment to manage project dependencies:

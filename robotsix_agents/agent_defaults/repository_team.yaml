@@ -1,5 +1,5 @@
-# Parser configuration
-parser:
+# specialist configuration
+repository_specialist:
   # File extensions to parse (with glob patterns)
   file_extensions:
     - "*.py" # Python files

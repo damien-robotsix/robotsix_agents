@@ -12,13 +12,13 @@ from autogen_agentchat.conditions import TextMentionTermination
 from robotsix_agents.core import get_config_manager, load_agent_config
 from .coding_specialist import agent as coding_specialist_agent
 from .git import agent as git_agent
-from .parser import agent as parser_agent
+from .repository_specialist import agent as repository_specialist_agent
 from .task_organizer import agent as task_organizer_agent
 
 logger = logging.getLogger(__name__)
 
 
-async def create_agent(repository_directory: str) -> SelectorGroupChat:
+async def create_agent(*paths: str) -> SelectorGroupChat:
     """
     Create a Repository Team instance using SelectorGroupChat.
 
@@ -27,11 +27,19 @@ async def create_agent(repository_directory: str) -> SelectorGroupChat:
     between the agents.
 
     Args:
-        repository_directory: Primary repository directory path.
+        *paths: A list of repository paths. The first path is the primary
+                repository, and any subsequent paths are treated as additional
+                dependencies for which repository_specialist agents will be created.
 
     Returns:
         Configured Repository Team SelectorGroupChat
     """
+    if not paths:
+        raise ValueError("At least one repository path must be provided for the repository_team.")
+
+    repository_directory = paths[0]
+    additional_paths = paths[1:]
+
     # Get configuration manager
     config_manager = get_config_manager()
 
@@ -48,10 +56,20 @@ async def create_agent(repository_directory: str) -> SelectorGroupChat:
         repository_directory=repository_directory
     )
 
-    # Create repository parser agent
-    parser_assistant = await parser_agent.create_agent(
-        repository_directory=repository_directory
-    )
+    # Create main repository specialist
+    repository_specialists = [
+        await repository_specialist_agent.create_agent(
+            repository_directory=repository_directory
+        )
+    ]
+    # Create repository specialists for additional paths
+    if additional_paths:
+        for path in additional_paths:
+            repository_specialists.append(
+                await repository_specialist_agent.create_agent(
+                    repository_directory=path
+                )
+            )
 
     # Create task organizer agent
     task_organizer_assistant = await task_organizer_agent.create_agent(
@@ -84,7 +102,7 @@ async def create_agent(repository_directory: str) -> SelectorGroupChat:
         "a TODO list and plan the work.\n\n"
         "**Task-Based Selection**:\n"
         "- **Repository analysis, semantic search, code understanding, "
-        "initial exploration AFTER planning**: → repository_parser\n"
+        "initial exploration AFTER planning**: → repository_specialist\n"
         "- **TODO list management, task planning, and session termination**: → task_organizer_assistant\n"
         "- **Coding tasks, code analysis, solution validation, file operations, "
         "reading/writing files, directory navigation**: → coding_specialist\n"
@@ -97,10 +115,12 @@ async def create_agent(repository_directory: str) -> SelectorGroupChat:
         "**Return only the selected agent name from {participants}.**"
     )
 
+    participants = [task_organizer_assistant, coding_specialist_assistant, git_assistant] + repository_specialists
+
     # Create SelectorGroupChat team with shared for nested team support
     repository_team = SelectorGroupChat(
         name=team_name,
-        participants=[task_organizer_assistant, coding_specialist_assistant, git_assistant, parser_assistant],
+        participants=participants,
         model_client=model_client,
         termination_condition=termination_condition,
         selector_prompt=selector_prompt,
@@ -111,7 +131,7 @@ async def create_agent(repository_directory: str) -> SelectorGroupChat:
 
     logger.info(
         f"Successfully created Repository Team with coding specialist, git, "
-        f"parser, and conversation coordinator agents for repository: "
+        f"repository_specialist, and conversation coordinator agents for repository: "
         f"{repository_directory}"
     )
     return repository_team

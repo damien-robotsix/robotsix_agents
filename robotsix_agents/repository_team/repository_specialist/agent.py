@@ -1,21 +1,21 @@
 """
-Repository Parser agent implementation.
+Repository specialist agent implementation.
 
-This module provides a Repository Parser agent that uses tools to index
+This module provides a Repository specialist agent that uses tools to index
 and search repository content using Qdrant vector store.
 """
 
 import logging
 from autogen_agentchat.agents import AssistantAgent
 from robotsix_agents.core import get_config_manager, load_agent_config
-from .tools import RepositoryParser
+from .repository_specialist import RepositoryParser
 
 logger = logging.getLogger(__name__)
 
 
 async def create_agent(repository_directory: str) -> AssistantAgent:
     """
-    Create a Repository Parser agent instance.
+    Create a repository_specialist agent instance.
 
     This function follows the robotsix_agents pattern and is called by the orchestrator
     to create participant agents.
@@ -24,16 +24,16 @@ async def create_agent(repository_directory: str) -> AssistantAgent:
         repository_directory: Repository directory path to parse
 
     Returns:
-        Configured Repository Parser AssistantAgent
+        Configured repository_specialist AssistantAgent
     """
     # Get configuration manager
     config_manager = get_config_manager()
 
     # Load agent-specific configuration
-    agent_config = load_agent_config("repository_parser")
+    agent_config = load_agent_config("repository_specialist")
 
     # Get model client from configuration manager
-    model_client = config_manager.get_model_client("repository_parser")
+    model_client = config_manager.get_model_client("repository_specialist")
 
     # Extract parser configuration from agent config
     parser_config = None
@@ -80,16 +80,16 @@ async def create_agent(repository_directory: str) -> AssistantAgent:
         search_repository,
     ]
 
-    # Create assistant agent with Repository Parser integration
+    # Create assistant agent with repository_specialist integration
     assistant_agent = AssistantAgent(
-        name="repository_parser",
+        name="repository_specialist",
         model_client=model_client,
         tools=tool_functions,
         max_tool_iterations=50,
         system_message=agent_config.get(
             "system_message",
             (
-                "You are a proficient semantic parser with the ability to search "
+                "You are a proficient semantic specialist with the ability to search "
                 "the repository for context relevant to a given task. Your primary "
                 "role is to provide a comprehensive summary based on the search "
                 "results, assisting the team in understanding the codebase. You do "
@@ -100,7 +100,7 @@ async def create_agent(repository_directory: str) -> AssistantAgent:
         ),
         description=agent_config.get(
             "description",
-            f"A Repository Parser assistant agent powered by CocoIndex. Provides "
+            f"A repository_specialist assistant agent powered by CocoIndex. Provides "
             f"semantic search capabilities across repository content using PostgreSQL "
             f"vector store. Repository is automatically indexed on startup. "
             f"Working on repository: {repository_directory}",
@@ -108,7 +108,7 @@ async def create_agent(repository_directory: str) -> AssistantAgent:
     )
 
     logger.info(
-        f"Successfully created Repository Parser agent for repository: "
+        f"Successfully created repository_specialist agent for repository: "
         f"{repository_directory}"
     )
     return assistant_agent
